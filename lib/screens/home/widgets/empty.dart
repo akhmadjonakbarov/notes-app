@@ -1,4 +1,6 @@
-import 'library/libraries.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Empty extends StatelessWidget {
   const Empty({
@@ -14,9 +16,6 @@ class Empty extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 100,
-            ),
             Container(
               decoration: const BoxDecoration(),
               height: 286,

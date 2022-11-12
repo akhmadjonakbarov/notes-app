@@ -40,4 +40,17 @@ class DBHelper {
     }
     return [];
   }
+
+  static Future<void> deleteNote({String? noteId}) async {
+    final sqlDB = await DBHelper.init();
+    await sqlDB
+        .delete(DBHelper.tableName, where: "id = ?", whereArgs: [noteId]);
+  }
+
+  static Future<int> updateNote({Note? note}) async {
+    var sqlDB = await DBHelper.init();
+    var result = await sqlDB.update(DBHelper.tableName, note!.toMap(),
+        where: "id = ?", whereArgs: [note.id]);
+    return result;
+  }
 }

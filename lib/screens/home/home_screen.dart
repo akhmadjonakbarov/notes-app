@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widgets/list_notes.dart';
-import 'added/added_screen.dart';
-import '../colors/app_colors.dart';
+import '../screens.dart';
+import '../../colors/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              ListNotes(),
+              const ListNotes(),
             ],
           ),
         ),

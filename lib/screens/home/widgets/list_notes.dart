@@ -1,10 +1,15 @@
 // ignore_for_file: unused_element
 
+import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes_app/screens/added/added_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../../../colors/app_colors.dart';
+import '../../../models/note.dart';
+import '../../../providers/notes.dart';
 import 'empty.dart';
-import 'library/libraries.dart';
 
 class ListNotes extends StatelessWidget {
   const ListNotes({
@@ -61,6 +66,15 @@ class ListNotes extends StatelessWidget {
     );
   }
 
+  void _deleteAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -88,7 +102,12 @@ class ListNotes extends StatelessWidget {
                               foregroundColor: Colors.transparent,
                               padding: const EdgeInsets.all(5),
                               backgroundColor: Colors.transparent,
-                              onPressed: (context) {},
+                              onPressed: (context) {
+                                Provider.of<Notes>(context, listen: false)
+                                    .deleteNote(
+                                  noteId: note.id,
+                                );
+                              },
                               child: Container(
                                 padding: const EdgeInsets.all(0),
                                 alignment: Alignment.center,
@@ -113,23 +132,26 @@ class ListNotes extends StatelessWidget {
                               note,
                             );
                           },
-                          child: Container(
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(
-                              bottom: 10,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              minWidth: double.infinity,
+                              maxHeight: 160,
                             ),
-                            padding: const EdgeInsets.all(25),
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(
-                                16,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  15,
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              note.somethings,
-                              style: GoogleFonts.nunito(
-                                fontSize: 25,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  note.title,
+                                  overflow: TextOverflow.clip,
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 25,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
