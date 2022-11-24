@@ -11,7 +11,15 @@ class NotesInitial extends NotesState {
   NotesInitial({this.notes}) : super(notes: notes);
 }
 
-class NotesLoading extends NotesState {}
+class NoteAdded extends NotesState {
+  List<Note>? notes = [];
+  NoteAdded({this.notes}) : super(notes: notes);
+}
+
+class NotesLoading extends NotesState {
+  List<Note>? notes = [];
+  NotesLoading({this.notes}) : super(notes: notes);
+}
 
 class NotesError extends NotesState {
   final String? errorMessage;

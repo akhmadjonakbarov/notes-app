@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes_app/logic/cubit/notes/notes_cubit.dart';
 import 'package:provider/provider.dart';
 
 import '../../../colors/app_colors.dart';
@@ -33,8 +35,10 @@ class _AddedScreenState extends State<AddedScreen> {
         _showEditAlert(context);
       } else {
         _formKey.currentState!.save();
-        Provider.of<Notes>(context, listen: false)
-            .addNote(title: title, somethings: somethings);
+        BlocProvider.of<NotesCubit>(context).addNote(
+          title: title,
+          somethings: somethings,
+        );
         Navigator.of(context).pop();
       }
     }
@@ -45,8 +49,11 @@ class _AddedScreenState extends State<AddedScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              16,
+            ),
+          ),
           backgroundColor: AppColors.backgroundColor,
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -66,7 +73,10 @@ class _AddedScreenState extends State<AddedScreen> {
                 decoration: const BoxDecoration(),
                 child: Text(
                   "Save changes?",
-                  style: GoogleFonts.nunito(color: Colors.white, fontSize: 23),
+                  style: GoogleFonts.nunito(
+                    color: Colors.white,
+                    fontSize: 23,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -86,8 +96,8 @@ class _AddedScreenState extends State<AddedScreen> {
                         bool isValid = _formKey.currentState!.validate();
                         if (isValid) {
                           _formKey.currentState!.save();
-                          Provider.of<Notes>(context, listen: false)
-                              .updateNote(note: widget.note);
+                          BlocProvider.of<NotesCubit>(context)
+                              .editNote(note: widget.note);
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
