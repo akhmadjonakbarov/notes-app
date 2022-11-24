@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../database/db_helper.dart';
-import '../models/note.dart';
+import '../data/models/note.dart';
 
 class Notes with ChangeNotifier {
   List<Note> _notes = [];
@@ -45,11 +45,21 @@ class Notes with ChangeNotifier {
     DBHelper.deleteNote(noteId: noteId);
   }
 
-  Future<void> getNotes() async {
-    List<Note> notes = await DBHelper.getData(tableName: DBHelper.tableName);
+  Future<void> getNotes({String? title}) async {
+    List<Note> notes = await DBHelper.getData(
+      tableName: DBHelper.tableName,
+    );
     if (notes.isNotEmpty) {
-      _notes = notes;
+      if (title != null) {
+        for (var note in notes) {
+          if (note.title.startsWith(title)) {
+            _notes.add(note);
+          }
+        }
+      } else {
+        _notes = notes;
+      }
+      notifyListeners();
     }
-    notifyListeners();
   }
 }

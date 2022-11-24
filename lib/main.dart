@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'providers/notes.dart';
-import 'screens/screens.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notes_app/logic/cubit/notes/notes_cubit.dart';
+import 'presentation/screens/screens.dart';
 
 void main() => runApp(const MyApp());
 
@@ -10,15 +10,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(
-          value: Notes(),
-        )
-      ],
+    return BlocProvider(
+      create: (ctx) => NotesCubit(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Material App',
+        title: 'Notes App',
         home: HomeScreen(),
       ),
     );

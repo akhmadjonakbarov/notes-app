@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as syspath;
 
-import '../models/note.dart';
+import '../data/models/note.dart';
 
 class DBHelper {
   static const tableName = "notes";
@@ -32,13 +32,10 @@ class DBHelper {
 
   static Future<List<Note>> getData({String? tableName}) async {
     final sqlDB = await DBHelper.init();
-    if (tableName != null) {
-      final List<Map<String, dynamic>> queryResult =
-          await sqlDB.query(tableName);
+    final List<Map<String, dynamic>> queryResult =
+        await sqlDB.query(tableName!);
 
-      return queryResult.map((e) => Note.fromMap(e)).toList();
-    }
-    return [];
+    return queryResult.map((e) => Note.fromMap(e)).toList();
   }
 
   static Future<void> deleteNote({String? noteId}) async {
