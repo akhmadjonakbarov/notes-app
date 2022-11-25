@@ -5,11 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes_app/logic/cubit/notes/notes_cubit.dart';
-import 'package:provider/provider.dart';
 
 import '../../../colors/app_colors.dart';
 import '../../../data/models/note.dart';
-import '../../../providers/notes.dart';
 import '../home/widgets/buttons.dart';
 import '../screens.dart';
 

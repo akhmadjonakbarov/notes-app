@@ -3,24 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes_app/presentation/screens/home/widgets/search_bar.dart';
+
+import '../../../colors/app_colors.dart';
+import '../screens.dart';
 import 'widgets/buttons.dart';
 import 'widgets/list_notes.dart';
-import '../screens.dart';
-import '../../../colors/app_colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-      ),
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
     );
-
-    void searchBar() {
-      // searching part
-    }
 
     void info(BuildContext context) {
       // about application
@@ -59,6 +55,13 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
+    void openSearchBar(BuildContext context) {
+      showSearch(
+        context: context,
+        delegate: SearchBar(),
+      );
+    }
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -89,7 +92,9 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Button(
                             icon: Icons.search,
-                            onTap: () {},
+                            onTap: () {
+                              openSearchBar(context);
+                            },
                           ),
                           const SizedBox(
                             width: 20,

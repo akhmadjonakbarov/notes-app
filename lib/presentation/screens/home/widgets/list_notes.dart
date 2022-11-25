@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, null_check_always_fails
 
 import 'dart:math';
 
@@ -8,12 +8,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes_app/logic/cubit/notes/notes_cubit.dart';
 import 'package:notes_app/presentation/screens/added/added_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:notes_app/presentation/screens/home/widgets/empty.dart';
 
 import '../../../../colors/app_colors.dart';
 import '../../../../data/models/note.dart';
-import '../../../../providers/notes.dart';
-import 'empty.dart';
 
 class ListNotes extends StatelessWidget {
   const ListNotes({
@@ -90,9 +88,13 @@ class ListNotes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-          decoration: const BoxDecoration(),
-          child: BlocBuilder<NotesCubit, NotesState>(
-            builder: (context, state) {
+        decoration: const BoxDecoration(),
+        child: BlocBuilder<NotesCubit, NotesState>(
+          builder: (context, state) {
+            if (state is NotesWelcome) {
+              return const WelcomePage();
+            }
+            if (state is NoteAdded) {
               return ListView.builder(
                 itemCount: state.notes!.length,
                 itemBuilder: (context, index) {
@@ -107,10 +109,9 @@ class ListNotes extends StatelessWidget {
                           padding: const EdgeInsets.all(5),
                           backgroundColor: Colors.transparent,
                           onPressed: (context) {
-                            Provider.of<Notes>(context, listen: false)
-                                .deleteNote(
-                              noteId: note.id,
-                            );
+                            context
+                                .read<NotesCubit>()
+                                .deleteNote(noteId: note.id);
                           },
                           child: Container(
                             padding: const EdgeInsets.all(0),
@@ -164,8 +165,12 @@ class ListNotes extends StatelessWidget {
                   );
                 },
               );
-            },
-          )),
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ),
     );
   }
 }

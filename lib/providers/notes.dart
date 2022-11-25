@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../database/db_helper.dart';
 import '../data/models/note.dart';
+import '../database/db_helper.dart';
 
 class Notes with ChangeNotifier {
   List<Note> _notes = [];
@@ -46,9 +46,7 @@ class Notes with ChangeNotifier {
   }
 
   Future<void> getNotes({String? title}) async {
-    List<Note> notes = await DBHelper.getData(
-      tableName: DBHelper.tableName,
-    );
+    List<Note> notes = await DBHelper.getData();
     if (notes.isNotEmpty) {
       if (title != null) {
         for (var note in notes) {

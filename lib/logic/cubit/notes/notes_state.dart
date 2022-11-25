@@ -1,24 +1,30 @@
+// ignore_for_file: must_be_immutable
+
 part of 'notes_cubit.dart';
 
 @immutable
 abstract class NotesState {
-  List<Note>? notes = [];
+  List<Note>? notes;
   NotesState({this.notes});
 }
 
-class NotesInitial extends NotesState {
-  List<Note>? notes = [];
-  NotesInitial({this.notes}) : super(notes: notes);
+class NotesWelcome extends NotesState {}
+
+class NotesInitial extends NotesState {}
+
+class NotesLoading extends NotesState {
+  List<Note>? notes;
+  NotesLoading({this.notes}) : super(notes: notes);
 }
 
 class NoteAdded extends NotesState {
-  List<Note>? notes = [];
-  NoteAdded({this.notes}) : super(notes: notes);
+  final Note note;
+  NoteAdded(this.note);
 }
 
-class NotesLoading extends NotesState {
-  List<Note>? notes = [];
-  NotesLoading({this.notes}) : super(notes: notes);
+class NotesDelete extends NotesState {
+  List<Note>? notes;
+  NotesDelete({this.notes}) : super(notes: notes);
 }
 
 class NotesError extends NotesState {
