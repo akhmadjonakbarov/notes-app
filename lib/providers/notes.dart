@@ -46,7 +46,9 @@ class Notes with ChangeNotifier {
   }
 
   Future<void> getNotes({String? title}) async {
-    List<Note> notes = await DBHelper.getData();
+    List<Note> notes = await DBHelper.getData(
+      tableName: DBHelper.tableName,
+    );
     if (notes.isNotEmpty) {
       if (title != null) {
         for (var note in notes) {

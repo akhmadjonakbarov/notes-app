@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notes_app/logic/cubit/notes/notes_cubit.dart';
-import 'package:notes_app/presentation/screens/added/added_screen.dart';
-import 'package:notes_app/presentation/screens/home/widgets/empty.dart';
+import '../../added/added_screen.dart';
+import '../widgets/empty.dart';
 
+import '../../../../logic/cubit/notes/notes_cubit.dart';
 import '../../../../colors/app_colors.dart';
 import '../../../../data/models/note.dart';
 
@@ -93,77 +93,86 @@ class ListNotes extends StatelessWidget {
           builder: (context, state) {
             if (state is NotesWelcome) {
               return const WelcomePage();
-            }
-            if (state is NoteAdded) {
-              return ListView.builder(
-                itemCount: state.notes!.length,
-                itemBuilder: (context, index) {
-                  Note note = state.notes![index];
-                  return Slidable(
-                    endActionPane: ActionPane(
-                      extentRatio: 0.2,
-                      motion: const DrawerMotion(),
-                      children: [
-                        CustomSlidableAction(
-                          foregroundColor: Colors.transparent,
-                          padding: const EdgeInsets.all(5),
-                          backgroundColor: Colors.transparent,
-                          onPressed: (context) {
-                            context
-                                .read<NotesCubit>()
-                                .deleteNote(noteId: note.id);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(0),
-                            alignment: Alignment.center,
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Theme.of(context).errorColor,
-                            ),
-                            child: const Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ),
+            } else if (state is NotesLoaded) {
+              return state.notes != null && state.notes!.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: state.notes!.length,
+                      itemBuilder: (context, index) {
+                        Note note = state.notes![index];
+                        return Slidable(
+                          endActionPane: ActionPane(
+                            extentRatio: 0.2,
+                            motion: const DrawerMotion(),
+                            children: [
+                              CustomSlidableAction(
+                                foregroundColor: Colors.transparent,
+                                padding: const EdgeInsets.all(5),
+                                backgroundColor: Colors.transparent,
+                                onPressed: (context) {
+                                  context
+                                      .read<NotesCubit>()
+                                      .deleteNote(noteId: note.id);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(0),
+                                  alignment: Alignment.center,
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    color: Theme.of(context).errorColor,
+                                  ),
+                                  child: const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    child: GestureDetector(
-                      onDoubleTap: () {
-                        _gotoEditScreen(
-                          context,
-                          note,
-                        );
-                      },
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minWidth: double.infinity,
-                          maxHeight: 160,
-                        ),
-                        child: Card(
-                          color: randomColor(),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              15,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              note.title,
-                              overflow: TextOverflow.clip,
-                              style: GoogleFonts.nunito(
-                                fontSize: 25,
+                          child: GestureDetector(
+                            onDoubleTap: () {
+                              _gotoEditScreen(
+                                context,
+                                note,
+                              );
+                            },
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                minWidth: double.infinity,
+                                maxHeight: 160,
+                              ),
+                              child: Card(
+                                color: randomColor(),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    15,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Text(
+                                    note.title,
+                                    overflow: TextOverflow.clip,
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                        );
+                      },
+                    )
+                  : const WelcomePage();
+            } else if (state is NotesLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is NotesError) {
+              return Center(
+                child: Text(state.errorMessage.toString()),
               );
             } else {
               return Container();

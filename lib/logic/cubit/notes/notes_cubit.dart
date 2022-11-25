@@ -8,20 +8,21 @@ part 'notes_state.dart';
 class NotesCubit extends Cubit<NotesState> {
   NotesCubit() : super(NotesInitial()) {
     emit(NotesWelcome());
+    DBHelper.getData(tableName: "notes").then((value) => print(value));
   }
 
   void addNote({String? title, String? somethings}) {
-    List<Note>? notes = state.notes;
+    // bo'sh [] ro'yxat qaytarsin agar state.notes-da xech null kelsa.
+    List<Note> notes = state.notes ?? [];
     try {
+      emit(NotesLoading());
       Note newNote = Note(
         id: UniqueKey().toString(),
         title: title!,
         somethings: somethings!,
       );
-      notes!.add(newNote);
-
-      emit(NotesLoading(notes: notes));
-      emit(NoteAdded(newNote));
+      notes.add(newNote);
+      emit(NotesLoaded(notes: notes));
       DBHelper.insertData(
         table: "notes",
         data: newNote.toMap(),
@@ -43,7 +44,7 @@ class NotesCubit extends Cubit<NotesState> {
         }
         return n;
       }).toList();
-      emit(NotesLoading(notes: notes));
+      emit(NotesLoading());
       DBHelper.updateNote(note: note);
     } catch (e) {
       emit(NotesError(errorMessage: e.toString()));
@@ -55,7 +56,7 @@ class NotesCubit extends Cubit<NotesState> {
     try {
       notes!.removeWhere((node) => node.id == noteId);
       emit(NotesDelete(notes: notes));
-      emit(NotesLoading(notes: notes));
+      emit(NotesLoading());
       DBHelper.deleteNote(noteId: noteId);
     } catch (e) {
       emit(

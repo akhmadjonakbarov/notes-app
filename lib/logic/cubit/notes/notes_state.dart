@@ -12,9 +12,11 @@ class NotesWelcome extends NotesState {}
 
 class NotesInitial extends NotesState {}
 
-class NotesLoading extends NotesState {
+class NotesLoading extends NotesState {}
+
+class NotesLoaded extends NotesState {
   List<Note>? notes;
-  NotesLoading({this.notes}) : super(notes: notes);
+  NotesLoaded({required this.notes}) : super(notes: notes);
 }
 
 class NoteAdded extends NotesState {

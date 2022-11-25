@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notes_app/presentation/screens/home/widgets/search_bar.dart';
+import './widgets/search_bar.dart';
 
 import '../../../colors/app_colors.dart';
 import '../screens.dart';
