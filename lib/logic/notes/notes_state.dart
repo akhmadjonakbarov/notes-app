@@ -40,6 +40,7 @@ class NotesDelete extends NotesState {
 }
 
 class NotesError extends NotesState {
+  // this class for catching error
   final String? errorMessage;
   NotesError({this.errorMessage});
 }

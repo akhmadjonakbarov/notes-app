@@ -8,12 +8,17 @@ part 'notes_state.dart';
 class NotesCubit extends Cubit<NotesState> {
   NotesCubit() : super(NotesInitial()) {
     emit(NotesWelcome());
-    DBHelper.getData(tableName: "notes").then((value) => print(value));
+    // if NotesInitial class is empty, we will set NotesWelcome to it.
   }
 
   void addNote({String? title, String? somethings}) {
-    // bo'sh [] ro'yxat qaytarsin agar state.notes-da xech null kelsa.
-    List<Note> notes = state.notes ?? [];
+    // bo'sh [] ro'yxat qaytarsin agar state.notes-da  null kelsa.
+    List<Note> notes = [];
+    if (state.notes == null || state.notes!.isEmpty) {
+      notes = [];
+    } else {
+      notes = state.notes!;
+    }
     try {
       emit(NotesLoading());
       Note newNote = Note(
@@ -45,6 +50,7 @@ class NotesCubit extends Cubit<NotesState> {
         return n;
       }).toList();
       emit(NotesLoading());
+      emit(NotesLoaded(notes: notes));
       DBHelper.updateNote(note: note);
     } catch (e) {
       emit(NotesError(errorMessage: e.toString()));
@@ -57,6 +63,7 @@ class NotesCubit extends Cubit<NotesState> {
       notes!.removeWhere((node) => node.id == noteId);
       emit(NotesDelete(notes: notes));
       emit(NotesLoading());
+      emit(NotesLoaded(notes: notes));
       DBHelper.deleteNote(noteId: noteId);
     } catch (e) {
       emit(

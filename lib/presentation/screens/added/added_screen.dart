@@ -1,11 +1,13 @@
 // ignore_for_file: must_be_immutable
 
+// flutter packages
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../logic/cubit/notes/notes_cubit.dart';
 
+// my packages
+import '../../../logic/notes/notes_cubit.dart';
 import '../../../colors/app_colors.dart';
 import '../../../data/models/note.dart';
 import '../home/widgets/buttons.dart';

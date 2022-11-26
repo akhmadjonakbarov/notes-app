@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../data/models/note.dart';
-import '../../../../logic/cubit/notes/notes_cubit.dart';
+import '../../../../logic/notes/notes_cubit.dart';
 import '../../added/added_screen.dart';
 
 class SearchBar extends SearchDelegate {

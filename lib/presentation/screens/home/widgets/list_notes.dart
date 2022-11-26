@@ -1,15 +1,16 @@
 // ignore_for_file: unused_element, null_check_always_fails
 
+// flutter packages
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+// my packages
 import '../../added/added_screen.dart';
 import '../widgets/empty.dart';
-
-import '../../../../logic/cubit/notes/notes_cubit.dart';
+import '../../../../logic/notes/notes_cubit.dart';
 import '../../../../colors/app_colors.dart';
 import '../../../../data/models/note.dart';
 
